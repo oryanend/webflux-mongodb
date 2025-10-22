@@ -14,7 +14,7 @@ import com.devsuperior.workshopmongo.services.exceptions.ResourceNotFoundExcepti
 
 @Service
 public class UserService {
-
+/*
 	@Autowired
 	private UserRepository repository;
 
@@ -65,4 +65,6 @@ public class UserService {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
 	}
+
+ */
 }
