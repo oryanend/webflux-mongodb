@@ -28,6 +28,18 @@ public class UserService {
         return repository.findById(id).map(UserDTO::new)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("Recurso não encontrado")));
     }
+
+    @Transactional
+    public Mono<UserDTO> insert(UserDTO dto) {
+        User entity = new User();
+        copyDtoToEntity(dto, entity);
+        return repository.save(entity).map(UserDTO::new);
+    }
+
+	private void copyDtoToEntity(UserDTO dto, User entity) {
+		entity.setName(dto.getName());
+        entity.setEmail(dto.getEmail());
+    }
 /*
 
 
@@ -36,14 +48,6 @@ public class UserService {
 		User user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
 		List<PostDTO> result = user.getPosts().stream().map(x -> new PostDTO(x)).toList();
 		return result;
-	}
-
-	@Transactional
-	public UserDTO insert(UserDTO dto) {
-		User entity = new User();
-		copyDtoToEntity(dto, entity);
-		entity = repository.save(entity);
-		return new UserDTO(entity);
 	}
 
 	@Transactional
