@@ -1,5 +1,7 @@
 package com.devsuperior.workshopmongo.dto;
 
+import com.devsuperior.workshopmongo.entities.User;
+
 public class AuthorDTO {
 	
 	private String id;
@@ -11,6 +13,11 @@ public class AuthorDTO {
 	public AuthorDTO(String id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+
+	public AuthorDTO(User user) {
+		this.id = user.getId();
+		this.name = user.getName();
 	}
 
 	public String getId() {
