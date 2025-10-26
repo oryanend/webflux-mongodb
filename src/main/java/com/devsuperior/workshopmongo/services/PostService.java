@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,20 +28,13 @@ public class PostService {
 
 	public Mono<List<PostDTO>> findByTitle(String text) {
 		return repository.searchTitle(text)
-				.map(PostDTO::new)  // converte Post → PostDTO
-				.collectList();     // junta todos os DTOs em uma List
+				.map(PostDTO::new)
+				.collectList();
 	}
 
-/*
-
-	
-
-	
-	public List<PostDTO> fullSearch(String text, Instant minDate, Instant maxDate) {
+	public Flux<PostDTO> fullSearch(String text, Instant minDate, Instant maxDate) {
 		maxDate = maxDate.plusSeconds(86400); // 24 * 60 * 60
-		List<PostDTO> result = repository.fullSearch(text, minDate, maxDate).stream().map(x -> new PostDTO(x)).toList();
-		return result;
+		return repository.fullSearch(text, minDate, maxDate).map(PostDTO::new);
 	}
 
- */
 }
