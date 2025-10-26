@@ -49,6 +49,12 @@ public class UserService {
 				.flatMap(existingUser -> repository.delete(existingUser));
     }
 
+    @Transactional(readOnly = true)
+    public Flux<PostDTO> findPosts(String id) {
+        User user = repository.findById(id).switchIfEmpty(Mono.error(new ResourceNotFoundException("Recurso não encontrado"))).block();
+        return Flux.fromIterable(user.getPosts().stream().map(x -> new PostDTO(x)).toList());
+    }
+
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());

@@ -15,7 +15,10 @@ public class User {
 	private String id;
 	private String name;
 	private String email;
-	
+
+	private @DBRef(lazy = true)
+	List<Post> posts = new ArrayList<>();
+
 	public User() {
 	}
 	
@@ -48,6 +51,10 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
 	}
 
 	@Override
